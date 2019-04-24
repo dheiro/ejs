@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf8" />
+    <title>Report: Suggestion System</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    />
+    <style>
+      /* @page {
+        size: 210mm 297mm;
+        margin: 5mm 5mm 5mm 5mm;
+      } */
+      @media print {
+        /* @page {
+          size: 210mm 297mm;
+          margin: 5mm 5mm 5mm 5mm;
+        } */
+        table {
+          page-break-after: auto;
+        }
+        tr {
+          page-break-inside: auto;
+          page-break-after: auto;
+        }
+        td {
+          page-break-inside: auto;
+          page-break-after: auto;
+        }
+        div {
+          page-break-inside: auto;
+          page-break-after: auto;
+        }
+        thead {
+          display: table-header-group;
+        }
+        tfoot {
+          display: table-footer-group;
+        }
+        .table-borderless tbody + tbody,
+        .table-borderless td,
+        .table-borderless th,
+        .table-borderless thead th {
+          border: 0 !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="apps">
+      <div class="row">
+        <div class="col-8">
+          <table class="table table-bordered table-sm">
+            <tr>
+              <td rowspan="2" style="width: 5cm; vertical-align: middle;">
+                <img src="http://klagen.redeva.id/img/logo.3304bf4e.png" class="img-fluid" alt=""/>
+              </td>
+              <td colspan="13"><span style="color: white;">_</span></td>
+            </tr>
+            <tr>
+              <td></td>
+              <td>0</td>
+              <td>0</td>
+              <td>9</td>
+              <td>/</td>
+              <td>S</td>
+              <td>S</td>
+              <td>/</td>
+              <td>2</td>
+              <td>0</td>
+              <td>1</td>
+              <td>7</td>
+              <td></td>
+            </tr>
+          </table>
+        </div>
+        <div class="col-4">
+          <h1 class="text-center">SUGGESTION SYSTEM</h1>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <table class="table table-bordered">
+          <tr>
+            <td width="20%"><span class="font-weight-bold">Nama Team</span></td>
+            <td>
+              <span><%= data.name %></span>
+            </td>
+          </tr>
+          <tr>
+            <td width="20%"><span class="font-weight-bold">Judul</span></td>
+            <td>
+              <span><%= data.description %></span>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <table class="table table-bordered">
+          <tr>
+            <td rowspan="<%= data.members.length %>" width="20%">
+              <span class="font-weight-bold">Dibuat Oleh</span>
+            </td>
+            <td width="50%">
+              <span><%= data.members[0].name %></span>
+              <%# <span>LEADER</span> %>
+            </td>
+            <td width="10%"><span class="font-weight-bold">NPK</span></td>
+            <td width="20%">
+              <%# <span>USER_ID</span> %>
+              <span><%= data.members[0].id %></span>
+            </td>
+          </tr>
+          <% data.members.forEach((member, index) => { %>
+            <% if (index !== 0) { %>
+              <tr>
+                <td width="50%">
+                  <span><%= member.name %></span>
+                </td>
+                <td width="10%"><span class="font-weight-bold">NPK</span></td>
+                <td width="20%">
+                  <span><%= member.id %></span>
+                </td>
+              </tr>
+            <% } %>
+          <% }); %>
+          <tr>
+            <td width="20%">
+              <span class="font-weight-bold">Line Of Improvement</span>
+            </td>
+            <td width="50%">
+              <span><%= data.line_of_improvement.name %></span>
+            </td>
+            <td width="10%"><span class="font-weight-bold">Dept</span></td>
+            <td width="20%">
+              <span><%= data.department.name %></span>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <table class="table table-bordered">
+          <tr>
+            <td class="text-center">
+              <span class="font-weight-bold">URAIAN MASALAH</span>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <p class="font-weight-bolder mt-1 mb-1" style="font-size: 16px;">Uraian Masalah</p>
+              <p class="mt-1 mb-1 ml-4" style="font-size: 14px;"><%= data.steps[0].data.substeps[0].attributes[0].value %></p>
+              <% if (data.steps[0].data.substeps[0].attributes[1].children.length !== 0) { %>
+                <p class="font-weight-bolder mt-1 mb-1" style="font-size: 16px;">Attachment</p>
+                <div class="row mx-2">
+                  <% data.steps[0].data.substeps[0].attributes[1].children.forEach((file, index) => { %>
+                    <div class="col-3">
+                      <img src="http://klagen01.server.redeva.id:3000/uploads/<%= file.value %>" class="img-fluid" alt="" />
+                    </div>
+                  <% }); %>
+                </div>
+              <% } %>
+            </td>
+          </tr>
+          <tr>
+            <td class="text-center">
+              <span class="font-weight-bold">USULAN PERBAIKAN</span>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <span class="font-weight-bold">WHAT</span>
+              <div class="ml-3">
+                <table class="table table-sm table-borderless mb-0">
+                  <tr>
+                    <td width="20%">Penyebab</td>
+                    <td width="1%">:</td>
+                    <td>
+                      <p class="mt-1 mb-1" style="font-size: 14px;"><%= data.steps[1].data.substeps[0].attributes[0].value %></p>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Rencana Perbaikan</td>
+                    <td>:</td>
+                    <td>
+                      <p class="mt-1 mb-1" style="font-size: 14px;"><%= data.steps[1].data.substeps[0].attributes[1].value %></p>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+              <span class="font-weight-bold">WHY</span>
+              <div class="ml-3">
+                <table class="table table-sm table-borderless mb-0">
+                  <tr>
+                    <td width="20%">Tujuan</td>
+                    <td width="1%">:</td>
+                    <td>
+                      <p class="mt-1 mb-1" style="font-size: 14px;"><%= data.steps[1].data.substeps[0].attributes[2].value %></p>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+              <span class="font-weight-bold">WHO</span>
+              <div class="ml-3">
+                <table class="table table-sm table-borderless mb-0">
+                  <tr>
+                    <td width="20%">PIC</td>
+                    <td width="1%">:</td>
+                    <td>
+                      <p class="mt-1 mb-1" style="font-size: 14px;"><%= data.steps[1].data.substeps[0].attributes[3].value %></p>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+              <span class="font-weight-bold">WHEN</span>
+              <div class="ml-3">
+                <table class="table table-sm table-borderless mb-0">
+                  <tr>
+                    <td width="20%">Due Date</td>
+                    <td width="1%">:</td>
+                    <td>
+                      <p class="mt-1 mb-1" style="font-size: 14px;"><%= data.steps[1].data.substeps[0].attributes[4].value %></p>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+              <span class="font-weight-bold">WHERE</span>
+              <div class="ml-3">
+                <table class="table table-sm table-borderless mb-0">
+                  <tr>
+                    <td width="20%">Dimana</td>
+                    <td width="1%">:</td>
+                    <td>
+                      <p class="mt-1 mb-1" style="font-size: 14px;"><%= data.steps[1].data.substeps[0].attributes[5].value %></p>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+              <span class="font-weight-bold">HOW</span>
+              <div class="ml-3">
+                <table class="table table-sm table-borderless mb-0">
+                  <tr>
+                    <td width="20%">Cara Perbaikannya</td>
+                    <td width="1%">:</td>
+                    <td>
+                      <p class="mt-1 mb-1" style="font-size: 14px;"><%= data.steps[1].data.substeps[0].attributes[6].value %></p>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+              <span class="font-weight-bold">HOW MUCH</span>
+              <div class="ml-3">
+                <table class="table table-sm table-borderless mb-0">
+                  <tr>
+                    <td width="20%">Biaya (Rp)</td>
+                    <td width="1%">:</td>
+                    <td>
+                      <p class="mt-1 mb-1" style="font-size: 14px;"><%= data.steps[1].data.substeps[0].attributes[7].value %></p>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+              <% if (data.steps[1].data.substeps[0].attributes[8].children.length !== 0) { %>
+                <p class="font-weight-bolder mt-1 mb-1" style="font-size: 16px;">Attachment</p>
+                <div class="row mx-2">
+                  <% data.steps[1].data.substeps[0].attributes[8].children.forEach((file, index) => { %>
+                    <div class="col-3">
+                      <img src="http://klagen01.server.redeva.id:3000/uploads/<%= file.value %>" class="img-fluid" alt="" />
+                    </div>
+                  <% }); %>
+                </div>
+              <% } %>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <div class="row" style="margin-top: 20px;">
+      <div class="col-12">
+        <table class="table table-bordered">
+          <tr>
+            <td colspan="3" class="text-center">
+              <span class="font-weight-bold">Persetujuan Atasan</span>
+            </td>
+          </tr>
+          <tr>
+            <td class="text-center" width="33.3%">
+              <span class="font-weight-bold">PERFORMANCE MANAGER</span>
+            </td>
+            <td class="text-center" width="33.3%">
+              <span class="font-weight-bold">FASILITATOR</span>
+            </td>
+            <td class="text-center" width="33.3%">
+              <span class="font-weight-bold">ADVISOR</span>
+            </td>
+          </tr>
+          <tr>
+            <td height="130px" class="text-center" style="vertical-align: middle;">
+              this document is digitally signed
+            </td>
+            <td height="130px" class="text-center" style="vertical-align: middle;">
+              this document is digitally signed
+            </td>
+            <td height="130px" class="text-center" style="vertical-align: middle;">
+              this document is digitally signed
+            </td>
+          </tr>
+          <tr>
+            <td style="min-height: 130px;">
+              <p class="font-weight-bolder mb-1">Comment :</p>
+              <p class="mt-1 mb-1"><%= data.steps[1].data.comment_performance_manager %></p>
+            </td>
+            <td style="min-height: 130px;">
+              <p class="font-weight-bolder mb-1">Comment :</p>
+              <p class="mt-1 mb-1"><%= data.steps[1].data.comment_facilitator %></p>
+            </td>
+            <td style="min-height: 130px;">
+              <p class="font-weight-bolder mb-1">Comment :</p>
+              <p class="mt-1 mb-1"><%= data.steps[1].data.comment_advisor %></p>
+            </td>
+          </tr>
+          <tr>
+            <td><span class="font-weight-bolder">Date : </span><%= data.steps[1].data.date_performance_manager %></td>
+            <td><span class="font-weight-bolder">Date : </span><%= data.steps[1].data.date_facilitator %></td>
+            <td><span class="font-weight-bolder">Date : </span><%= data.steps[1].data.date_advisor %></td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <table class="table table-bordered">
+          <tr>
+            <td class="text-center">
+              <span class="font-weight-bold">EVALUASI HASIL</span>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <p class="font-weight-bolder mt-1 mb-1" style="font-size: 16px;">Before</p>
+              <p class="mt-1 mb-1 ml-4" style="font-size: 14px;"><%= data.steps[2].data.substeps[0].attributes[1].children[0].value %></p>
+              <% if (data.steps[2].data.substeps[0].attributes[1].children[1].children.length !== 0) { %>
+                <p class="font-weight-bolder mt-1 mb-1" style="font-size: 16px;">Attachment</p>
+                <div class="row mx-2">
+                  <% data.steps[2].data.substeps[0].attributes[1].children[1].children.forEach((file, index) => { %>
+                    <div class="col-3">
+                      <img src="http://klagen01.server.redeva.id:3000/uploads/<%= file.value %>" class="img-fluid" alt="" />
+                    </div>
+                  <% }); %>
+                </div>
+              <% } %>
+              <p class="font-weight-bolder mt-1 mb-1" style="font-size: 16px;">After</p>
+              <p class="mt-1 mb-1 ml-4" style="font-size: 14px;"><%= data.steps[2].data.substeps[0].attributes[2].children[0].value %></p>
+              <% if (data.steps[2].data.substeps[0].attributes[2].children[1].children.length !== 0) { %>
+                <p class="font-weight-bolder mt-1 mb-1" style="font-size: 16px;">Attachment</p>
+                <div class="row mx-2">
+                  <% data.steps[2].data.substeps[0].attributes[2].children[1].children.forEach((file, index) => { %>
+                    <div class="col-3">
+                      <img src="http://klagen01.server.redeva.id:3000/uploads/<%= file.value %>" class="img-fluid" alt="" />
+                    </div>
+                  <% }); %>
+                </div>
+              <% } %>
+              <p class="font-weight-bolder mt-1 mb-1" style="font-size: 16px;">When</p>
+              <p class="mt-1 mb-1 ml-4" style="font-size: 14px;"><%= data.steps[2].data.substeps[0].attributes[3].value %></p>
+            </td>
+          </tr>
+          <tr>
+            <td class="text-center">
+              <span class="font-weight-bold">HASIL PERBAIKAN</span>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div class="row">
+                <div class="col-12">
+                  <p class="font-weight-bolder mt-1 mb-1" style="font-size: 16px;">Uraian Hasil Perbaikan</p>
+                  <p class="mt-1 mb-1 ml-4" style="font-size: 14px;"><%= data.steps[3].data.substeps[0].attributes[0].value %></p>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-12">
+                  <p class="font-weight-bolder mt-1 mb-1" style="font-size: 16px;">Manfaat SQCDME</p>
+                  <table class="table table-borderless mb-0">
+                    <tr>
+                      <th>Stream</th>
+                      <th>Benefit</th>
+                      <th>Attachment</th>
+                    </tr>
+                    <tr>
+                      <td>S</td>
+                      <td>
+                        <p class="mt-1 mb-1" style="font-size: 14px;"><%= data.steps[3].data.substeps[1].attributes[0].children[0].value %></p>
+                      </td>
+                      <td>
+                        <% if (data.steps[3].data.substeps[1].attributes[0].children[1].children.length !== 0) { %>
+                          <div class="row">
+                            <% data.steps[3].data.substeps[1].attributes[0].children[1].children.forEach((file, index) => { %>
+                              <div class="col-3">
+                                <img src="http://klagen01.server.redeva.id:3000/uploads/<%= file.value %>" class="img-fluid" alt="" />
+                              </div>
+                            <% }); %>
+                          </div>
+                        <% } %>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Q</td>
+                      <td>
+                        <p class="mt-1 mb-1" style="font-size: 14px;"><%= data.steps[3].data.substeps[1].attributes[1].children[0].value %></p>
+                      </td>
+                      <td>
+                        <% if (data.steps[3].data.substeps[1].attributes[1].children[1].children.length !== 0) { %>
+                          <div class="row">
+                            <% data.steps[3].data.substeps[1].attributes[1].children[1].children.forEach((file, index) => { %>
+                              <div class="col-3">
+                                <img src="http://klagen01.server.redeva.id:3000/uploads/<%= file.value %>" class="img-fluid" alt="" />
+                              </div>
+                            <% }); %>
+                          </div>
+                        <% } %>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>C</td>
+                      <td>
+                        <p class="mt-1 mb-1" style="font-size: 14px;"><%= data.steps[3].data.substeps[1].attributes[2].children[0].value %></p>
+                      </td>
+                      <td>
+                        <% if (data.steps[3].data.substeps[1].attributes[2].children[1].children.length !== 0) { %>
+                          <div class="row">
+                            <% data.steps[3].data.substeps[1].attributes[2].children[1].children.forEach((file, index) => { %>
+                              <div class="col-3">
+                                <img src="http://klagen01.server.redeva.id:3000/uploads/<%= file.value %>" class="img-fluid" alt="" />
+                              </div>
+                            <% }); %>
+                          </div>
+                        <% } %>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>D</td>
+                      <td>
+                        <p class="mt-1 mb-1" style="font-size: 14px;"><%= data.steps[3].data.substeps[1].attributes[3].children[0].value %></p>
+                      </td>
+                      <td>
+                        <% if (data.steps[3].data.substeps[1].attributes[3].children[1].children.length !== 0) { %>
+                          <div class="row">
+                            <% data.steps[3].data.substeps[1].attributes[3].children[1].children.forEach((file, index) => { %>
+                              <div class="col-3">
+                                <img src="http://klagen01.server.redeva.id:3000/uploads/<%= file.value %>" class="img-fluid" alt="" />
+                              </div>
+                            <% }); %>
+                          </div>
+                        <% } %>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>M</td>
+                      <td>
+                        <p class="mt-1 mb-1" style="font-size: 14px;"><%= data.steps[3].data.substeps[1].attributes[4].children[0].value %></p>
+                      </td>
+                      <td>
+                        <% if (data.steps[3].data.substeps[1].attributes[4].children[1].children.length !== 0) { %>
+                          <div class="row">
+                            <% data.steps[3].data.substeps[1].attributes[4].children[1].children.forEach((file, index) => { %>
+                              <div class="col-3">
+                                <img src="http://klagen01.server.redeva.id:3000/uploads/<%= file.value %>" class="img-fluid" alt="" />
+                              </div>
+                            <% }); %>
+                          </div>
+                        <% } %>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>E</td>
+                      <td>
+                        <p class="mt-1 mb-1" style="font-size: 14px;"><%= data.steps[3].data.substeps[1].attributes[5].children[0].value %></p>
+                      </td>
+                      <td>
+                        <% if (data.steps[3].data.substeps[1].attributes[5].children[1].children.length !== 0) { %>
+                          <div class="row">
+                            <% data.steps[3].data.substeps[1].attributes[5].children[1].children.forEach((file, index) => { %>
+                              <div class="col-3">
+                                <img src="http://klagen01.server.redeva.id:3000/uploads/<%= file.value %>" class="img-fluid" alt="" />
+                              </div>
+                            <% }); %>
+                          </div>
+                        <% } %>
+                      </td>
+                    </tr>
+                  </table>
+                </div>
+              </div>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <div class="row" style="margin-top: 20px;">
+      <div class="col-12">
+        <table class="table table-bordered">
+          <tr>
+            <td colspan="3" class="text-center">
+              <span class="font-weight-bold">Persetujuan Atasan</span>
+            </td>
+          </tr>
+          <tr>
+            <td class="text-center" width="33.3%">
+              <span class="font-weight-bold">PERFORMANCE MANAGER</span>
+            </td>
+            <td class="text-center" width="33.3%">
+              <span class="font-weight-bold">FASILITATOR</span>
+            </td>
+            <td class="text-center" width="33.3%">
+              <span class="font-weight-bold">ADVISOR</span>
+            </td>
+          </tr>
+          <tr>
+            <td height="130px" class="text-center">
+              this document is digitally signed
+            </td>
+            <td height="130px" class="text-center">
+              this document is digitally signed
+            </td>
+            <td height="130px" class="text-center">
+              this document is digitally signed
+            </td>
+          </tr>
+          <tr>
+            <td style="min-height: 130px;">
+              <p class="font-weight-bolder mb-1">Comment :</p>
+              <p class="mt-1 mb-1"><%= data.steps[3].data.comment_performance_manager %></p>
+            </td>
+            <td style="min-height: 130px;">
+              <p class="font-weight-bolder mb-1">Comment :</p>
+              <p class="mt-1 mb-1"><%= data.steps[3].data.comment_facilitator %></p>
+            </td>
+            <td style="min-height: 130px;">
+              <p class="font-weight-bolder mb-1">Comment :</p>
+              <p class="mt-1 mb-1"><%= data.steps[3].data.comment_advisor %></p>
+            </td>
+          </tr>
+          <tr>
+            <td><span class="font-weight-bolder">Date : </span><%= data.steps[3].data.date_performance_manager %></td>
+            <td><span class="font-weight-bolder">Date : </span><%= data.steps[3].data.date_facilitator %></td>
+            <td><span class="font-weight-bolder">Date : </span><%= data.steps[3].data.date_advisor %></td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </body>
+</html>
